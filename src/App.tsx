@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Layout } from "antd";
+import Room from "./pages/Room";
+import Chat from "./components/Chat"
+
+const { Content, Sider } = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Content>
+        <div className="site-layout-background">
+          <Room />
+        </div>
+      </Content>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="0"
+        width="300"
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type);
+        }}
+      >
+        <Chat />
+      </Sider>
+    </Layout>
   );
 }
 
