@@ -34,14 +34,6 @@ const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
   useEffect(() => {
     const player = new Plyr("#player");
 
-    // Wait for player to be ready
-    setTimeout(() => {
-      player.source = {
-        type: type,
-        sources: sources,
-      };
-    }, 1500);
-
     // events
     // https://github.com/sampotts/plyr#standard-media-events
 
@@ -132,12 +124,16 @@ const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
   }, [sources, type, props]);
 
   return (
-    <div className="plyr__video-embed" id="player" style={{minHeight: "100vh"}}>
+    <div
+      className="plyr__video-embed"
+      id="player"
+      style={{ minHeight: "100vh" }}
+    >
       <iframe
         key={sources[0].src}
         title="hello"
         allowTransparency
-        src="https://www.youtube.com/embed/bTqVqk7FSmY?iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+        src={`${sources[0].src}?iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`}
         allow="autoplay"
       ></iframe>
     </div>

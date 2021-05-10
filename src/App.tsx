@@ -1,30 +1,14 @@
 import React from "react";
 import "./App.css";
-import { Layout } from "antd";
-import Room from "./pages/Room";
-import Chat from "./components/Chat"
+import Home from "./pages/Home";
 
-const { Content, Sider } = Layout;
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   return (
-    <Layout>
-      <Content>
-        <div className="site-layout-background">
-          <Room />
-        </div>
-      </Content>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        width="300"
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <Chat />
-      </Sider>
-    </Layout>
+    <Router>
+      <Home />
+    </Router>
   );
 }
 

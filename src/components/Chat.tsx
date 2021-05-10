@@ -108,7 +108,7 @@ const Chat = () => {
           renderItem={(item) => (
             <li>
               <Comment
-                style={{ background: "white", margin: 15 }}
+                style={{ background: "white", margin: 15, padding: 2 }}
                 actions={item.actions}
                 author={item.author}
                 avatar={item.avatar}

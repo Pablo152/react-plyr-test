@@ -1,0 +1,16 @@
+body {
+  background-image: url("Japanese-Neon-Wallpapers-Desktop-Wallpaper.jpg");
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 23vh;
+}
+
+.box .inner-box {
+    background: rgba(0, 0, 0, 0.8); /* Green background with 30% opacity */
+    padding: 10em;
+    width: 80rem;
+}
