@@ -1,4 +1,10 @@
-import React, { useState, createElement, useEffect, useRef, MouseEvent } from "react";
+import React, {
+  useState,
+  createElement,
+  useEffect,
+  useRef,
+  MouseEvent,
+} from "react";
 import {
   Input,
   Button,
@@ -97,7 +103,7 @@ const Chat = () => {
   ]);
 
   const createMessage = (el: any) => {
-    el.preventDefault()
+    el.preventDefault();
     const name = author.name;
     const content = message;
     const datetime_title = moment().format("YYYY-MM-DD HH:mm_ss");
