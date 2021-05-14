@@ -2,13 +2,16 @@ import React from "react";
 import ReactPlyr, { Provider, Event } from "../components/ReactPlyr";
 import Chat from "../components/Chat";
 import { Layout } from "antd";
+import { useParams } from "react-router-dom";
 
 const { Content, Sider } = Layout;
 
 const Room: React.VFC = (): JSX.Element => {
+  let { id, link } = useParams<{ id: string; link: string }>();
+
   const sources = [
     {
-      src: "https://www.youtube.com/watch?v=pV6VauzOwTk",
+      src: decodeURIComponent(link),
       provider: "youtube" as Provider,
     },
   ];
