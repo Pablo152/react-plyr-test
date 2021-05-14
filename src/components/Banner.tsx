@@ -3,6 +3,7 @@ import { Typography, Button, Modal, Input } from "antd";
 import "./Banner.css";
 
 import { TwitterOutlined, FacebookFilled } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
 const { Title, Paragraph } = Typography;
 
@@ -16,15 +17,36 @@ const inlineDivStyle: CSSProperties = {
   color: "#1890ff",
 };
 
+const generateUUID = (): string => {
+  let d = new Date().getTime(),
+    d2 = (performance && performance.now && performance.now() * 1000) || 0;
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    let r = Math.random() * 16;
+    if (d > 0) {
+      r = (d + r) % 16 | 0;
+      d = Math.floor(d / 16);
+    } else {
+      r = (d2 + r) % 16 | 0;
+      d2 = Math.floor(d2 / 16);
+    }
+    return (c == "x" ? r : (r & 0x7) | 0x8).toString(16);
+  });
+};
+
 const Banner: React.VFC = (): JSX.Element => {
+  const history = useHistory();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [videoQuery, setVideoQuery] = useState("");
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    const videoUrl = encodeURIComponent(videoQuery);
+    const UUID = generateUUID();
+    history.push(`/room/${UUID}/${videoUrl}`);
   };
 
   const handleCancel = () => {
@@ -35,7 +57,7 @@ const Banner: React.VFC = (): JSX.Element => {
     <>
       <div className="box">
         <div className="inner-box">
-          <Title style={ParagraphStyle}>
+          <Title level={2} style={ParagraphStyle}>
             WITH <div style={inlineDivStyle}>U</div>
           </Title>
           <Paragraph style={ParagraphStyle}>
@@ -46,15 +68,15 @@ const Banner: React.VFC = (): JSX.Element => {
             Get group chats and sync videos
           </Paragraph>
           <Paragraph style={ParagraphStyle}>
-            <Button onClick={showModal} ghost type="primary">
+            <Button onClick={showModal} type="primary">
               Create room
             </Button>
           </Paragraph>
           <Paragraph style={ParagraphStyle}>
-            <Button type="primary">
+            <Button ghost type="primary">
               <TwitterOutlined />
             </Button>
-            <Button type="primary" style={{ marginLeft: 7 }}>
+            <Button ghost type="primary" style={{ marginLeft: 7 }}>
               <FacebookFilled />
             </Button>
           </Paragraph>
@@ -80,7 +102,10 @@ const Banner: React.VFC = (): JSX.Element => {
         onCancel={handleCancel}
       >
         <Paragraph>Insert Youtube / Vimeo link</Paragraph>
-        <Input placeholder="https://www.youtube.com/watch?v=H8HCL8YOSbo" />
+        <Input
+          onChange={(ev) => setVideoQuery(ev.target.value)}
+          placeholder="https://www.youtube.com/watch?v=H8HCL8YOSbo"
+        />
       </Modal>
     </>
   );

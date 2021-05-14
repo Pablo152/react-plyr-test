@@ -1,5 +1,6 @@
-.link-item {
-  border: 1px solid white;
-  padding: 12px;
-  border-radius: 4px;
+.logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 5px 24px 16px 0;
 }

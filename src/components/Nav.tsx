@@ -8,18 +8,13 @@ const { Title } = Typography;
 const Nav: React.VFC = (): JSX.Element => {
   return (
     <Header>
-      <Menu theme="dark" mode="horizontal">
-        <Menu.Item disabled>
-          <Title style={{ color: "white", margin: 7 }}>
+      <div className="logo">
+      <Title level={2} style={{ color: "white", margin: 7 }}>
             WITH <div style={{ display: "inline", color: "#1890ff" }}>U</div>
           </Title>
-        </Menu.Item>
+      </div>
+      <Menu theme="dark" mode="horizontal">
         <Menu.Item key="1">
-          <Link className="link-item" to="/home" component={Typography.Link}>
-            Home
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="2">
           <Link className="link-item" to="/contact" component={Typography.Link}>
             Contact us
           </Link>
