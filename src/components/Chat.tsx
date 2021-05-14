@@ -3,7 +3,6 @@ import React, {
   createElement,
   useEffect,
   useRef,
-  MouseEvent,
 } from "react";
 import {
   Input,
@@ -20,9 +19,7 @@ import {
 import {
   SendOutlined,
   DislikeOutlined,
-  LikeOutlined,
-  DislikeFilled,
-  LikeFilled,
+  LikeOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import { TwitterPicker, ColorResult } from "react-color";
@@ -46,7 +43,6 @@ interface author {
 const Chat = () => {
   const [likes, setLikes] = useState<number>(0);
   const [dislikes, setDislikes] = useState<number>(0);
-  const [action, setAction] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [name, setName] = useState<string>("Withu");
   const [color, setColor] = useState<string>("#1890ff");
@@ -70,13 +66,13 @@ const Chat = () => {
   const actions = [
     <Tooltip key="comment-basic-like" title="Like">
       <span onClick={() => setLikes(1)}>
-        {createElement(action === "liked" ? LikeFilled : LikeOutlined)}
+        {createElement(LikeOutlined)}
         <span className="comment-action">{likes}</span>
       </span>
     </Tooltip>,
     <Tooltip key="comment-basic-dislike" title="Dislike">
       <span onClick={() => setDislikes(1)}>
-        {createElement(action === "disliked" ? DislikeFilled : DislikeOutlined)}
+        {createElement(DislikeOutlined)}
         <span className="comment-action">{dislikes}</span>
       </span>
     </Tooltip>,

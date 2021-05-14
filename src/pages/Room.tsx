@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 const { Content, Sider } = Layout;
 
 const Room: React.VFC = (): JSX.Element => {
-  let { id, link } = useParams<{ id: string; link: string }>();
+  let { link } = useParams<{ id: string; link: string }>();
 
   const sources = [
     {
