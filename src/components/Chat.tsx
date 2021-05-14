@@ -11,10 +11,19 @@ import moment from "moment";
 
 const { TextArea } = Input;
 
+type message = {
+  actions: JSX.Element[];
+  author: JSX.Element;
+  avatar: JSX.Element;
+  content: JSX.Element;
+  datetime: JSX.Element;
+};
+
 const Chat = () => {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
+  const [likes, setLikes] = useState<number>(0);
+  const [dislikes, setDislikes] = useState<number>(0);
   const [action, setAction] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const like = () => {
     setLikes(1);
@@ -37,74 +46,72 @@ const Chat = () => {
     </Tooltip>,
     <Tooltip key="comment-basic-dislike" title="Dislike">
       <span onClick={dislike}>
-        {React.createElement(
-          action === "disliked" ? DislikeFilled : DislikeOutlined
-        )}
+        {createElement(action === "disliked" ? DislikeFilled : DislikeOutlined)}
         <span className="comment-action">{dislikes}</span>
       </span>
     </Tooltip>,
   ];
 
-  const data = [
+  const [messages, setMessages] = useState<message[]>([
     {
       actions: actions,
-      author: <p>Han Solo</p>,
+      author: <p>Withu</p>,
       avatar: (
         <Avatar
           style={{ color: "black", backgroundColor: "#fde3cf", margin: 5 }}
         >
-          U
+          WU
         </Avatar>
       ),
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure), to help people create
-          their product prototypes beautifully and efficiently.
-        </p>
-      ),
+      content: <p>Enjoy!</p>,
       datetime: (
-        <Tooltip
-          title={moment().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss")}
-        >
-          <span>{moment().subtract(1, "days").fromNow()}</span>
+        <Tooltip title={moment().format("YYYY-MM-DD HH:mm_ss")}>
+          <span>{moment().fromNow()}</span>
         </Tooltip>
       ),
     },
-    {
-      actions: actions,
-      author: <p>Han Solo</p>,
-      avatar: (
-        <Avatar
-          style={{ color: "black", backgroundColor: "#d1edf2", margin: 5 }}
-        >
-          P
-        </Avatar>
-      ),
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure), to help people create
-          their product prototypes beautifully and efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss")}
-        >
-          <span>{moment().subtract(2, "days").fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-  ];
+  ]);
+
+  const createMessage = () => {
+    const author = "Pablo";
+    const content = message;
+    const datetime_title = moment().format("YYYY-MM-DD HH:mm_ss");
+    const datetime_span = moment().fromNow();
+
+    setMessages(
+      messages.concat({
+        actions: actions,
+        author: <p>{author}</p>,
+        avatar: (
+          <Avatar
+            style={{ color: "black", backgroundColor: "#fde3cf", margin: 5 }}
+          >
+            {author.charAt(0).toUpperCase() + author.charAt(1).toUpperCase()}
+          </Avatar>
+        ),
+        content: <p>{content}</p>,
+        datetime: (
+          <Tooltip title={datetime_title}>
+            <span>{datetime_span}</span>
+          </Tooltip>
+        ),
+      })
+    );
+  };
 
   return (
     <>
       <div>
         <List
           className="comment-list"
+          style={{
+            overflowY: "auto",
+            maxHeight: "82vh",
+            display: "flex",
+            flexDirection: "column-reverse",
+          }}
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={messages}
           renderItem={(item) => (
             <li>
               <Comment
@@ -121,12 +128,18 @@ const Chat = () => {
       </div>
 
       <div style={{ position: "absolute", bottom: 0, padding: 20 }}>
-        <TextArea rows={4} style={{ borderRadius: 10 }} />
+        <TextArea
+          rows={4}
+          style={{ borderRadius: 10 }}
+          onChange={(el) => setMessage(el.target.value)}
+          onPressEnter={createMessage}
+        />
         <Button
           type="primary"
           shape="round"
           style={{ float: "right", marginTop: 5 }}
           icon={<SendOutlined />}
+          onClick={createMessage}
         >
           Send
         </Button>

@@ -1,5 +1,6 @@
 import React, { useEffect, FunctionComponent } from "react";
 import Plyr from "plyr";
+import './ReactPlyr.css'
 
 export type Provider = Plyr.Provider;
 export type Event = Plyr.PlyrEvent;
