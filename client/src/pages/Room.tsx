@@ -1,13 +1,16 @@
 import React from "react";
-import ReactPlyr, { Provider, Event } from "../components/ReactPlyr";
+import ReactPlyr, { Provider } from "../components/ReactPlyr";
 import Chat from "../components/Chat";
 import { Layout } from "antd";
 import { useParams } from "react-router-dom";
+import socket from "../socket/socket";
 
 const { Content, Sider } = Layout;
 
 const Room: React.VFC = (): JSX.Element => {
-  let { link } = useParams<{ id: string; link: string }>();
+  let { id, link } = useParams<{ id: string; link: string }>();
+
+  socket.emit("join_room", id);
 
   const sources = [
     {
@@ -15,18 +18,6 @@ const Room: React.VFC = (): JSX.Element => {
       provider: "youtube" as Provider,
     },
   ];
-
-  const onPlay = (event: Event): void => {
-    console.log("HELLO FROM PARENT", event);
-  };
-
-  const onSeeking = (event: Event): void => {
-    console.log("HELLO FROM PARENT -- Seeking", event);
-  };
-
-  const onPause = (event: Event): void => {
-    console.log("HELLO FROM PARENT -- Pause", event);
-  };
 
   return (
     <Layout hasSider>
@@ -38,17 +29,11 @@ const Room: React.VFC = (): JSX.Element => {
           console.log(collapsed, type);
         }}
       >
-        <Chat />
+        <Chat id={id} />
       </Sider>
       <Content>
         <div className="site-layout-background">
-          <ReactPlyr
-            sources={sources}
-            type="video"
-            onPlay={onPlay}
-            onSeeking={onSeeking}
-            onPause={onPause}
-          />
+          <ReactPlyr sources={sources} type="video" id={id} />
         </div>
       </Content>
     </Layout>

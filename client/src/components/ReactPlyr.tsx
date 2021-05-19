@@ -1,5 +1,6 @@
-import React, { useEffect, FunctionComponent } from "react";
+import React, { useEffect } from "react";
 import Plyr from "plyr";
+import socket from "../socket/socket";
 
 export type Provider = Plyr.Provider;
 export type Event = Plyr.PlyrEvent;
@@ -7,6 +8,7 @@ export type Event = Plyr.PlyrEvent;
 type ReactPlyrProps = {
   sources: Plyr.Source[];
   type: Plyr.MediaType;
+  id: string;
   onProgress?: (event: Event) => void;
   onPlay?: (event: Event) => void;
   onPlaying?: (event: Event) => void;
@@ -26,13 +28,24 @@ type ReactPlyrProps = {
   onReady?: (event: Event) => void;
 };
 
-const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
-  sources,
-  type,
-  ...props
-}): JSX.Element => {
+const ReactPlyr: React.ForwardRefRenderFunction<
+  HTMLInputElement,
+  ReactPlyrProps
+> = ({ sources, type, id, ...props }, ref): JSX.Element => {
   useEffect(() => {
     const player = new Plyr("#player");
+
+    socket.on("play_socket", (_) => {
+      player.play();
+    });
+
+    socket.on("pause_socket", (_) => {
+      player.pause();
+    });
+
+    socket.on("seeked_socket", (currentTime) => {
+      player.currentTime = currentTime;
+    });
 
     // events
     // https://github.com/sampotts/plyr#standard-media-events
@@ -50,11 +63,14 @@ const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
     // playing event, pass in onPlaying as props
     player.on("playing", (event: Event) => {
       props.onPlaying?.(event);
+      socket.emit("play", id);
     });
 
     // pause event, pass in onPause as props
     player.on("pause", (event: Event) => {
+      console.log("pause");
       props.onPause?.(event);
+      socket.emit("pause", id);
     });
 
     // playing event, pass in onTimeUpdate as props
@@ -75,6 +91,7 @@ const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
     // seeked event, pass in onSeeked as props
     player.on("seeked", (event: Event) => {
       props.onSeeked?.(event);
+      socket.emit("seeked", id, player.currentTime);
     });
 
     // ratechange event, pass in onRateChange as props
@@ -121,7 +138,7 @@ const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
     player.on("ready", (event: Event) => {
       props.onReady?.(event);
     });
-  }, [sources, type, props]);
+  }, [sources, type, props, id, ref]);
 
   return (
     <div
@@ -140,4 +157,4 @@ const ReactPlyr: FunctionComponent<ReactPlyrProps> = ({
   );
 };
 
-export default ReactPlyr;
+export default React.forwardRef(ReactPlyr);
