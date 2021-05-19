@@ -1,5 +1,5 @@
 {
-  "name": "withu-v2",
+  "name": "withu-v2-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "yarn build && rm -rf ~/withu-v2-server/build && mv build/ ~/withu-v2-server/"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +52,7 @@
   "devDependencies": {
     "@types/react-color": "^3.0.4",
     "@types/react-router-dom": "^5.1.7",
-    "@types/react-router-transition": "^2.1.0"
+    "@types/react-router-transition": "^2.1.0",
+    "@types/socket.io-client": "^3.0.0"
   }
 }
