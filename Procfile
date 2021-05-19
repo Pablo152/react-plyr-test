@@ -1,0 +1,1 @@
+web: cd client && yarn build && rm -rf ../api/build/ && mv build/ ../api/ && cd ../api/ && yarn build && yarn start
